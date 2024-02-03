@@ -7,36 +7,37 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
-        /* Full-height layout and reset default margins */
+        /* Ensure full height of the page and reset default margins */
         html, body {
-            height: 100%;
             margin: 0;
             padding: 0;
-            background-color: #f7f8fc; /* Match the screenshot background */
-            font-family: 'Inter', sans-serif; /* Use Inter font for consistency */
+            height: 100%;
+            background-color: #f7f8fc;
+            font-family: 'Inter', sans-serif;
         }
 
-        /* Center form on the page */
+        /* Center the form in the middle of the page */
         .container {
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
+            padding: 1rem; /* Add a little padding to avoid touching the window edges */
         }
 
         /* Style the form to match the design */
         .bg-white {
             background-color: #fff;
             border-radius: 0.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
             padding: 2rem;
             width: 100%;
-            max-width: 800px; /* Set a max-width to match the design */
-            margin: auto; /* Center the form */
+            max-width: 800px; /* Set a max-width to avoid very wide form */
         }
 
-        /* Style input, select, and textarea elements */
+        /* Style input and textarea elements */
         input[type="text"],
+        input[type="email"],
         select,
         textarea {
             width: 100%;
@@ -45,8 +46,6 @@
             border-radius: 0.375rem;
             margin-top: 0.5rem;
             margin-bottom: 1rem;
-            font-size: 0.875rem; /* Match font size to design */
-            font-family: 'Inter', sans-serif;
         }
 
         /* Style buttons */
@@ -57,193 +56,191 @@
             border: none;
             border-radius: 0.375rem;
             cursor: pointer;
-            margin-top: 0.5rem;
-            margin-bottom: 1rem; /* Add space below buttons */
-            font-size: 0.875rem; /* Match font size to design */
-            font-family: 'Inter', sans-serif;
+            width: auto; /* Make buttons auto width */
+            display: inline-block; /* Align buttons next to each other */
+            margin-right: 0.5rem; /* Add space between buttons */
         }
 
         button:hover {
             background-color: #4338ca;
         }
 
-        /* Style the radio buttons as toggles */
+        /* Style the radio buttons */
         .radio-group {
             display: flex;
-            justify-content: flex-start;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .radio-group input[type="radio"] {
-            -webkit-appearance: none;
-            appearance: none;
-            background-color: #f0f3f5;
-            padding: 0.5rem;
-            border-radius: 50%;
-            display: inline-block;
-            position: relative;
-            margin-right: 10px;
-            cursor: pointer;
-            border: 2px solid transparent;
-        }
-
-        .radio-group input[type="radio"]:checked {
-            background-color: #4f46e5;
-            border-color: #4f46e5;
+            justify-content: flex-start; /* Align radio buttons to the start */
+            gap: 1rem; /* Add gap between radio button labels */
         }
 
         .radio-group label {
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.5rem; /* Add gap between radio icon and text */
         }
 
+        .radio-group input[type="radio"] {
+            -webkit-appearance: none; /* Remove default radio button style */
+            appearance: none;
+            background-color: #f0f3f5; /* Light grey background */
+            padding: 0.5rem; /* Padding around the radio button */
+            border-radius: 50%; /* Make it circular */
+            display: inline-block;
+            position: relative;
+            margin-right: 10px;
+            cursor: pointer;
+            border: 2px solid transparent; /* Add border to maintain dimensions */
+        }
+
+        /* Add blue background on checked state */
+        .radio-group input[type="radio"]:checked {
+            background-color: #4f46e5;
+            border-color: #4f46e5;
+        }
+
+        /* Style icons within radio labels */
         .radio-group .fas {
             color: #4f46e5;
         }
 
         /* Responsive adjustments */
-        @media (max-width: 640px) {
+        @media (max-width: 768px) {
             .container {
                 padding: 20px;
             }
             .radio-group {
                 flex-direction: column;
-                align-items: flex-start;
+                align-items: flex-start; /* Align items to the start on small screens */
             }
             .radio-group label {
-                margin-bottom: 0.5rem;
+                margin-bottom: 0.5rem; /* Add space between stacked labels */
             }
         }
     </style>
 </head>
 <body>
+<!-- Main container to hold the form -->
 <div class="container">
+    <!-- White background form container -->
     <div class="bg-white">
-        <!-- Form content begins here -->
-
+        <!-- Form content begins -->
         <!-- API Key Input -->
         <div class="mb-4">
             <label for="api-key-input" class="block text-gray-700 text-sm font-bold mb-2">API Key:</label>
-            <input type="text" id="api-key-input" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter your API key here">
+            <input type="text" id="api-key-input" name="api_key" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter your API key here">
         </div>
 
         <!-- Fetch Projects Button -->
         <div class="mb-4">
-            <button id="fetch-projects" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                Fetch Projects
-            </button>
+            <button id="fetch-projects" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Fetch Projects</button>
         </div>
 
         <!-- Project Dropdown -->
         <div class="mb-4">
             <label for="project-dropdown" class="block text-gray-700 text-sm font-bold mb-2">Project:</label>
-            <select id="project-dropdown" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+            <select id="project-dropdown" name="project" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
                 <option value="">Select a project</option>
-                <!-- Dynamically populated project options will go here -->
+                <!-- Options will be dynamically populated here -->
             </select>
         </div>
 
         <!-- Agent Dropdown -->
         <div class="mb-4">
             <label for="agent-dropdown" class="block text-gray-700 text-sm font-bold mb-2">Agent:</label>
-            <select id="agent-dropdown" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+            <select id="agent-dropdown" name="agent" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
                 <option value="">Select an agent</option>
-                <!-- Dynamically populated agent options will go here -->
+                <!-- Options will be dynamically populated here -->
             </select>
         </div>
 
         <!-- Organization Name Input -->
         <div class="mb-4">
             <label for="organization-name" class="block text-gray-700 text-sm font-bold mb-2">Organization Name:</label>
-            <input type="text" id="organization-name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Organization Name">
+            <input type="text" id="organization-name" name="organization_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Organization Name">
         </div>
 
         <!-- Company Details Textarea -->
-        <div class="mb-4">
-            <label for="company-details" class="block text-gray-700 text-sm font-bold mb-2">Company Details:</label>
-            <textarea id="company-details" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="4"
-  placeholder="Details about the company"></textarea>
-        </div>
+<div class="mb-4">
+    <label for="company-details" class="block text-gray-700 text-sm font-bold mb-2">Company Details:</label>
+    <textarea id="company-details" name="company_details" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="4" placeholder="Details about the company"></textarea>
+</div>
 
-        <!-- Example Responses Section -->
-        <div id="example-responses" class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">Example Responses:</label>
-            <!-- Placeholder for dynamic example responses -->
-        </div>
-        <button type="button" class="add-example-response icon-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
-            Add Example Response <i class="fas fa-plus"></i>
-        </button>
+<!-- Example Responses Section -->
+<div id="example-responses" class="mb-4">
+    <label class="block text-gray-700 text-sm font-bold mb-2">Example Responses:</label>
+    <!-- Placeholder for dynamic example responses -->
+</div>
+<button type="button" class="add-example-response icon-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
+    Add Example Response <i class="fas fa-plus"></i>
+</button>
 
-        <!-- Qualifying Questions Section -->
-        <div id="qualifying-questions" class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">Qualifying Questions:</label>
-            <!-- Placeholder for dynamic qualifying questions -->
-        </div>
-        <button type="button" class="add-qualifying-question icon-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
-            Add Qualifying Question <i class="fas fa-plus"></i>
-        </button>
+<!-- Qualifying Questions Section -->
+<div id="qualifying-questions" class="mb-4">
+    <label class="block text-gray-700 text-sm font-bold mb-2">Qualifying Questions:</label>
+    <!-- Placeholder for dynamic qualifying questions -->
+</div>
+<button type="button" class="add-qualifying-question icon-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
+    Add Qualifying Question <i class="fas fa-plus"></i>
+</button>
 
-        <!-- Personality Input -->
-        <div class="mb-4">
-            <label for="personality" class="block text-gray-700 text-sm font-bold mb-2">Personality:</label>
-            <input type="text" id="personality" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Personality traits">
-        </div>
+<!-- Personality Input -->
+<div class="mb-4">
+    <label for="personality" class="block text-gray-700 text-sm font-bold mb-2">Personality:</label>
+    <input type="text" id="personality" name="personality" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Personality traits">
+</div>
 
-        <!-- Call Purpose Dropdown -->
-        <div class="mb-4">
-            <label for="call-purpose" class="block text-gray-700 text-sm font-bold mb-2">Call Purpose:</label>
-            <select id="call-purpose" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                <option value="">Select Call Purpose</option>
-                <!-- Options like Pre-qualification, Appointment Setting etc. -->
-            </select>
-        </div>
+<!-- Call Purpose Dropdown -->
+<div class="mb-4">
+    <label for="call-purpose" class="block text-gray-700 text-sm font-bold mb-2">Call Purpose:</label>
+    <select id="call-purpose" name="call_purpose" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        <option value="">Select Call Purpose</option>
+        <!-- Options like Pre-qualification, Appointment Setting etc. -->
+    </select>
+</div>
 
-        <!-- Output Rules Textarea -->
-        <div class="mb-4" id="output-rules-section">
-            <label for="output-rules" class="block text-gray-700 text-sm font-bold mb-2">Output Rules:</label>
-            <textarea id="output-rules" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Define output rules"></textarea>
-            <button type="button" id="default-rules-btn" class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Default Rules</button>
-        </div>
+<!-- Output Rules Textarea -->
+<div class="mb-4" id="output-rules-section">
+    <label for="output-rules" class="block text-gray-700 text-sm font-bold mb-2">Output Rules:</label>
+    <textarea id="output-rules" name="output_rules" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Define output rules"></textarea>
+    <button type="button" id="default-rules-btn" class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Default Rules</button>
+</div>
 
-        <!-- Action Selection Radio Group -->
-        <div class="radio-group">
-            <!-- Live Transfer Option -->
-            <label>
-                <input type="radio" name="action" value="Live Transfer" checked>
-                <i class="fas fa-phone-volume"></i>
-                <span>Live Transfer</span>
-            </label>
+<!-- Action Selection Radio Group -->
+<div class="radio-group">
+    <!-- Live Transfer Option -->
+    <label>
+        <input type="radio" name="action" value="Live Transfer" checked>
+        <i class="fas fa-phone-volume"></i>
+        <span>Live Transfer</span>
+    </label>
 
-            <!-- Book Appointment Option -->
-            <label>
-                <input type="radio" name="action" value="Book Appointment">
-                <i class="fas fa-calendar-alt"></i>
-                <span>Book Appointment</span>
-            </label>
+    <!-- Book Appointment Option -->
+    <label>
+        <input type="radio" name="action" value="Book Appointment">
+        <i class="fas fa-calendar-alt"></i>
+        <span>Book Appointment</span>
+    </label>
 
-            <!-- End Call Option -->
-            <label>
-                <input type="radio" name="action" value="End Call">
-                <i class="fas fa-phone-slash"></i>
-                <span>End Call</span>
-            </label>
-        </div>
+    <!-- End Call Option -->
+    <label>
+        <input type="radio" name="action" value="End Call">
+        <i class="fas fa-phone-slash"></i>
+        <span>End Call</span>
+    </label>
+</div>
 
-        <!-- Disconnect Message Input -->
-        <div class="mb-4">
-            <label for="disconnect-message" class="block text-gray-700 text-sm font-bold mb-2">Disconnect Message:</label>
-            <input type="text" id="disconnect-message" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Disconnect Message. This will be used to end the conversation.">
-        </div>
+<!-- Disconnect Message Input -->
+<div class="mb-4">
+    <label for="disconnect-message" class="block text-gray-700 text-sm font-bold mb-2">Disconnect Message:</label>
+    <input type="text" id="disconnect-message" name="disconnect_message" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Disconnect Message. This will be used to end the conversation.">
+</div>
 
-        <!-- Save Changes Button -->
-        <button id="save-changes" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Save Changes
-        </button>
+<!-- Save Changes Button -->
+<button id="save-changes" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    Save Changes
+</button>
 
-       <!-- Success Modal -->
+<!-- Success Modal -->
 <div id="success-modal" class="hidden fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
     <div class="bg-white rounded-lg p-4">
         <h2 class="text-lg font-semibold mb-2">Success!</h2>
@@ -258,13 +255,14 @@
 <div id="live-transfer-modal" class="hidden fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
     <div class="bg-white rounded-lg p-4">
         <h2 class="text-lg font-semibold mb-2">Live Transfer Settings</h2>
-        <input type="text" id="transfer-number" placeholder="Transfer Number" class="border p-2 w-full mb-2">
-        <input type="text" id="transfer-webhook-url" placeholder="Transfer Webhook URL" class="border p-2 w-full mb-2">
+        <input type="text" id="transfer-number" name="transfer_number" placeholder="Transfer Number" class="border p-2 w-full mb-2">
+        <input type="text" id="transfer-webhook-url" name="transfer_webhook_url" placeholder="Transfer Webhook URL" class="border p-2 w-full mb-2">
         <button id="save-live-transfer" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Save and Close
         </button>
     </div>
 </div>
+
     </div>
 </div>
 <script>
