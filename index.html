@@ -7,98 +7,124 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
-        /* Full-screen layout */
+        /* Full-screen layout adjustments */
         html, body {
+            height: 100%;
             margin: 0;
             padding: 0;
-            height: 100%;
-            background-color: #f7f8fc; /* Light gray background */
-            font-family: 'Inter', sans-serif; /* Inter font for better appearance */
+            background-color: #f7f8fc; /* Adjusted to match screenshot background */
+            font-family: 'Inter', sans-serif; /* Preferred font */
         }
-        
+
         /* Container for centering the form on the page */
         .container {
-            min-height: 100vh; /* Full height of the viewport */
             display: flex;
             justify-content: center;
             align-items: center;
+            height: 100vh;
+            padding: 50px; /* Padding to prevent content from touching the edges */
         }
-        
-        /* Styling for the form to match the design */
+
+        /* Form styling */
         .bg-white {
-            background-color: #ffffff; /* White background for the form */
-            box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.1); /* Shadow for the form */
-            border-radius: 0.5rem; /* Rounded corners */
-            padding: 2rem; /* Padding around the form content */
-            width: 100%; /* Full width */
-            max-width: 640px; /* Max width for larger screens */
-        }
-        
-        /* Style adjustments for form elements */
-        label {
-            color: #2a2e37; /* Dark label color */
-        }
-        
-        input, select, textarea {
-            width: 100%; /* Full width */
-            padding: 0.75rem 1rem; /* Padding */
-            border: 1px solid #d1d5db; /* Light border */
-            border-radius: 0.375rem; /* Slightly rounded borders */
-            margin-top: 0.5rem; /* Margin top for spacing */
-            margin-bottom: 1rem; /* Margin bottom for spacing */
-        }
-        
-        button {
-            background-color: #4f46e5; /* Blue background for buttons */
-            color: white; /* White text color */
-            padding: 0.75rem 1.5rem; /* Padding for button size */
-            border: none; /* No border */
-            border-radius: 0.375rem; /* Slightly rounded borders */
-            margin-top: 0.5rem; /* Margin top for spacing */
-            cursor: pointer; /* Pointer cursor on hover */
-        }
-        
-        button:hover {
-            background-color: #4338ca; /* Darker blue on hover */
+            background-color: #fff;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            width: 100%;
+            max-width: 800px; /* Increased max-width to prevent too skinny form */
         }
 
-        /* Styles for radio buttons and icons */
-        .form-radio {
-            margin-right: 0.5rem; /* Spacing to the right of radio buttons */
-        }
-
-        .radio-label {
-            display: flex;
-            align-items: center;
-            margin-right: 2rem; /* Spacing between radio button labels */
-        }
-
-        .radio-group {
-            display: flex;
-            justify-content: space-around;
+        /* Form element styling */
+        input[type="text"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            margin-top: 0.5rem;
             margin-bottom: 1rem;
         }
 
-        .fas {
-            margin-left: 0.5rem; /* Spacing to the left of icons */
+        /* Button styling */
+        button {
+            background-color: #4f46e5;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            width: 100%; /* Full-width buttons */
         }
 
-        /* Responsive adjustments for smaller screens */
-        @media (max-width: 640px) {
-            .radio-label {
-                margin-bottom: 1rem; /* Stack radio buttons vertically on small screens */
-            }
-            .radio-group {
-                flex-direction: column;
-                align-items: center;
+        button:hover {
+            background-color: #4338ca;
+        }
+
+        /* Radio button customization */
+        .radio-group {
+            display: flex;
+            justify-content: space-between; /* Distribute space evenly */
+            align-items: center; /* Align items vertically */
+            margin: 1rem 0;
+        }
+
+        /* Custom radio button design */
+        .radio-group input[type="radio"] {
+            -webkit-appearance: none; /* Hide the default radio button */
+            appearance: none;
+            background-color: #f0f3f5;
+            padding: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            position: relative;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        /* Checkmark styles */
+        .radio-group input[type="radio"]:checked::after {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #4f46e5;
+        }
+
+        /* Adjustments for font-awesome icons */
+        .radio-group .fas {
+            margin-left: 5px;
+            color: #4f46e5;
+        }
+
+        /* Label styling for radio buttons */
+        .radio-group label {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
             }
         }
     </style>
 </head>
 <body>
+
+<!-- Main container to hold the form -->
 <div class="container">
+    <!-- White background form container -->
     <div class="bg-white">
-        <!-- API Key Input -->
+          <!-- API Key Input -->
         <div class="mb-4">
             <label for="api-key-input" class="block text-gray-700 text-sm font-bold mb-2">API Key:</label>
             <input type="text" id="api-key-input" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter your API key here">
@@ -175,31 +201,31 @@
     <button type="button" id="default-rules-btn" class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Default Rules</button>
 </div>
         
-        <!-- Radio Button Group for Action Selection -->
+        <!-- Action Selection Radio Group -->
         <div class="radio-group">
             <!-- Live Transfer Option -->
-            <label class="radio-label">
-                <input type="radio" name="action" value="Live Transfer" class="form-radio h-5 w-5">
-                Live Transfer
+            <label>
+                <input type="radio" name="action" value="Live Transfer" checked>
+                <span>Live Transfer</span>
                 <i class="fas fa-phone-volume"></i>
             </label>
 
             <!-- Book Appointment Option -->
-            <label class="radio-label">
-                <input type="radio" name="action" value="Book Appointment" class="form-radio h-5 w-5">
-                Book Appointment
-                <i class="fas fa-calendar-check"></i>
+            <label>
+                <input type="radio" name="action" value="Book Appointment">
+                <span>Book Appointment</span>
+                <i class="fas fa-calendar-alt"></i>
             </label>
 
             <!-- End Call Option -->
-            <label class="radio-label">
-                <input type="radio" name="action" value="End Call" class="form-radio h-5 w-5">
-                End Call
+            <label>
+                <input type="radio" name="action" value="End Call">
+                <span>End Call</span>
                 <i class="fas fa-phone-slash"></i>
             </label>
         </div>
 
-        <!-- Disconnect Message Input -->
+       <!-- Disconnect Message Input -->
         <div class="mb-4">
             <label for="disconnect-message" class="block text-gray-700 text-sm font-bold mb-2">Disconnect Message:</label>
             <input type="text" id="disconnect-message" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Disconnect Message. This will be used to end the conversation.">
