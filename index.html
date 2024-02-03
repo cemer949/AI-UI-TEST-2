@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="height: 100%; margin: 0;">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,127 +8,151 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         html, body { height: 100%; margin: 0; }
-        body { display: flex; justify-content: center; align-items: center; }
-        .container { width: 100%; max-width: 1200px; }
-        .form-container { background-color: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; }
-        .hidden { display: none; }
-        .flex-container { display: flex; align-items: flex-start; margin-bottom: 10px; }
-        .flex-container > textarea { flex-grow: 1; margin-right: 10px; }
-        .icon-button { cursor: pointer; }
-        .icon-button i { pointer-events: none; }
-        /* Custom styles for radio buttons with SVG icons */
-        .action-radio { display: flex; align-items: center; margin-bottom: 10px; }
-        .action-radio input[type="radio"] { margin-right: 10px; }
-        .action-radio svg { width: 24px; height: 24px; fill: currentColor; }
+        body { background-color: #f7f7f7; display: flex; justify-content: center; align-items: center; }
+        .container { width: 100%; padding: 2rem; }
+        .form-container { background-color: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-radius: 0.5rem; overflow: hidden; padding: 2rem; }
+        .title { font-size: 1.5rem; font-weight: bold; color: #333; margin-bottom: 2rem; }
+        .input-group { margin-bottom: 1rem; }
+        .input-group label { display: block; font-size: 1rem; color: #333; margin-bottom: 0.5rem; }
+        .input-group input, .input-group select, .input-group textarea { width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 0.375rem; }
+        .button { display: inline-block; padding: 0.75rem 1.5rem; border-radius: 0.375rem; text-align: center; font-weight: bold; cursor: pointer; }
+        .button-blue { background-color: #3490dc; color: white; }
+        .button-red { background-color: #e3342f; color: white; }
+        .radio-icon-group { display: flex; align-items: center; margin-bottom: 0.75rem; }
+        .radio-icon-group input[type="radio"] { margin-right: 0.5rem; }
+        .radio-icon-group label { cursor: pointer; }
+        .radio-icon-group svg { width: 20px; height: 20px; margin-right: 0.5rem; }
+        /* Additional styles to match the given screenshot */
+        .form-container { max-width: 800px; margin: auto; padding: 20px; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); }
+        .title { font-size: 24px; margin-bottom: 20px; }
+        label { font-weight: 600; color: #4a5568; margin-bottom: 5px; }
+        input, select, textarea { border: 2px solid #e2e8f0; border-radius: 4px; }
+        button { margin-top: 20px; }
+        .radio-icon-group label { background: #edf2f7; border: 2px solid #e2e8f0; border-radius: 4px; padding: 10px; margin-right: 10px; }
+        .radio-icon-group input[type="radio"]:checked + label { background: #bee3f8; border-color: #90cdf4; }
     </style>
 </head>
-<body class="bg-gray-200">
+<body>
+
 <div class="container">
-    <div class="form-container p-8">
-<!-- API Key Input -->
-<div class="mb-4">
-    <label for="api-key-input" class="block text-gray-700 text-sm font-bold mb-2">API Key:</label>
-    <input type="text" id="api-key-input" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter your API key here">
-</div>
+    <div class="form-container">
+        <div class="title">Agent Creation</div>
+        <!-- Existing form fields from your code -->
+        <!-- API Key Input -->
+        <div class="input-group">
+            <label for="api-key-input" class="block text-gray-700 text-sm font-bold mb-2">API Key:</label>
+            <input type="text" id="api-key-input" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter your API key here">
+        </div>
 
-<!-- Fetch Projects Button -->
-<div class="mb-4">
-    <button id="fetch-projects" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-        Fetch Projects
-    </button>
-</div>
+        <!-- Fetch Projects Button -->
+        <div class="input-group">
+            <button id="fetch-projects" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Fetch Projects
+            </button>
+        </div>
 
-<!-- Project Dropdown -->
-<div class="mb-4">
-    <label for="project-dropdown" class="block text-gray-700 text-sm font-bold mb-2">Project:</label>
-    <select id="project-dropdown" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
-        <option value="">Select a project</option>
-    </select>
-</div>
-
-<!-- Agent Dropdown -->
-<div class="mb-4">
-    <label for="agent-dropdown" class="block text-gray-700 text-sm font-bold mb-2">Agent:</label>
-    <select id="agent-dropdown" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
-        <option value="">Select an agent</option>
-    </select>
-</div>
-        <!-- Organization Name -->
-        <div class="mb-4">
-            <label for="organization-name" class="block text-gray-700 text-sm font-bold mb-2">Organization Name</label>
-            <input type="text" id="organization-name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Organization Name">
-        </div>
-        <!-- Company Details -->
-        <div class="mb-4">
-            <label for="company-details" class="block text-gray-700 text-sm font-bold mb-2">Company Details</label>
-            <textarea id="company-details" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Company Details"></textarea>
-        </div>
-        <!-- Example Responses -->
-        <div id="example-responses" class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">Example Responses</label>
-            <!-- Placeholder for dynamic example responses -->
-        </div>
-        <button type="button" class="add-example-response icon-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
-            Add Example Response <i class="fas fa-plus"></i>
-        </button>
-        <!-- Qualifying Questions -->
-        <div id="qualifying-questions" class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">Qualifying Questions</label>
-            <!-- Placeholder for dynamic qualifying questions -->
-        </div>
-        <button type="button" class="add-qualifying-question icon-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
-            Add Qualifying Question <i class="fas fa-plus"></i>
-        </button>
-        <!-- Personality -->
-        <div class="mb-4">
-            <label for="personality" class="block text-gray-700 text-sm font-bold mb-2">Personality</label>
-            <input type="text" id="personality" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Personality">
-        </div>
-        <!-- Call Purpose -->
-        <div class="mb-4">
-            <label for="call-purpose" class="block text-gray-700 text-sm font-bold mb-2">Call Purpose</label>
-            <select id="call-purpose" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                <option value="">Select Call Purpose</option>
-                <option value="pre-qualification">Pre-qualification</option>
-                <option value="appointment setting">Appointment Setting</option>
-                <option value="appointment confirmation">Appointment Confirmation</option>
-                <option value="abandoned checkout">Abandoned Checkout</option>
+        <!-- Project Dropdown -->
+        <div class="input-group">
+            <label for="project-dropdown" class="block text-gray-700 text-sm font-bold mb-2">Project:</label>
+            <select id="project-dropdown" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                <option value="">Select a project</option>
+                <!-- Project options will be populated here -->
             </select>
         </div>
+
+        <!-- Agent Dropdown -->
+        <div class="input-group">
+            <label for="agent-dropdown" class="block text-gray-700 text-sm font-bold mb-2">Agent:</label>
+            <select id="agent-dropdown" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                <option value="">Select an agent</option>
+                <!-- Agent options will be populated here -->
+            </select>
+        </div>
+        
+       <!-- Organization Name -->
+<div class="input-group">
+    <label for="organization-name" class="block text-gray-700 text-sm font-bold mb-2">Organization Name</label>
+    <input type="text" id="organization-name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Organization Name">
+</div>
+
+<!-- Company Details -->
+<div class="input-group">
+    <label for="company-details" class="block text-gray-700 text-sm font-bold mb-2">Company Details</label>
+    <textarea id="company-details" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Company Details"></textarea>
+</div>
+
+<!-- Example Responses -->
+<div class="input-group" id="example-responses">
+    <label class="block text-gray-700 text-sm font-bold mb-2">Example Responses</label>
+    <!-- Placeholder for dynamic example responses -->
+</div>
+<button type="button" class="add-example-response button button-blue mb-4">
+    Add Example Response <i class="fas fa-plus"></i>
+</button>
+
+<!-- Qualifying Questions -->
+<div class="input-group" id="qualifying-questions">
+    <label class="block text-gray-700 text-sm font-bold mb-2">Qualifying Questions</label>
+    <!-- Placeholder for dynamic qualifying questions -->
+</div>
+<button type="button" class="add-qualifying-question button button-blue mb-4">
+    Add Qualifying Question <i class="fas fa-plus"></i>
+</button>
+
+<!-- Personality -->
+<div class="input-group">
+    <label for="personality" class="block text-gray-700 text-sm font-bold mb-2">Personality</label>
+    <input type="text" id="personality" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Personality">
+</div>
+
+<!-- Call Purpose -->
+<div class="input-group">
+    <label for="call-purpose" class="block text-gray-700 text-sm font-bold mb-2">Call Purpose</label>
+    <select id="call-purpose" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        <option value="">Select Call Purpose</option>
+        <option value="pre-qualification">Pre-qualification</option>
+        <option value="appointment setting">Appointment Setting</option>
+        <option value="appointment confirmation">Appointment Confirmation</option>
+        <option value="abandoned checkout">Abandoned Checkout</option>
+    </select>
+</div>
+
 <!-- Output Rules with Default Rules Button -->
-<div class="mb-4" id="output-rules-section">
+<div class="input-group" id="output-rules-section">
     <label for="output-rules" class="block text-gray-700 text-sm font-bold mb-2">Output Rules</label>
     <textarea id="output-rules" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Define output rules"></textarea>
-    <button type="button" id="default-rules-btn" class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Default Rules</button>
+    <button type="button" id="default-rules-btn" class="button button-blue mt-2">Default Rules</button>
 </div>
-        <!-- Action Selection as Radio Buttons -->
-        <div class="mb-4">
-            <label for="action-select" class="block text-gray-700 text-sm font-bold mb-2">Action</label>
-            <div class="action-radio">
+
+        <!-- Action Selection as Radio Buttons with Icons -->
+        <div class="input-group">
+            <label>Action</label>
+            <div class="radio-icon-group">
                 <input type="radio" id="live-transfer" name="action" value="Live Transfer">
-                <label for="live-transfer">Live Transfer <!-- Insert SVG icon here --></label>
+                <label for="live-transfer"><i class="fas fa-phone-alt"></i> Live Transfer</label>
             </div>
-            <div class="action-radio">
+            <div class="radio-icon-group">
                 <input type="radio" id="book-appointment" name="action" value="Book Appointment">
-                <label for="book-appointment">Book Appointment <!-- Insert SVG icon here --></label>
+                <label for="book-appointment"><i class="fas fa-calendar-alt"></i> Book Appointment</label>
             </div>
-            <div class="action-radio">
+            <div class="radio-icon-group">
                 <input type="radio" id="end-call" name="action" value="End Call">
-                <label for="end-call">End Call <!-- Insert SVG icon here --></label>
+                <label for="end-call"><i class="fas fa-phone-slash"></i> End Call</label>
             </div>
         </div>
 
+        <!-- Save Changes Button -->
+        <button id="save-changes" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Save Changes
+        </button>
+        
         <!-- Disconnect Message Input -->
-<div class="mb-4">
+<div class="input-group">
     <label for="disconnect-message" class="block text-gray-700 text-sm font-bold mb-2">Disconnect Message</label>
     <input type="text" id="disconnect-message" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Disconnect Message. This will be used to end the conversation.">
 </div>
-        
-<!-- Save Changes Button -->
-<button id="save-changes" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-    Save Changes
-</button>
 
+       <!-- Modals from your original HTML -->
 <!-- Success Modal -->
 <div id="success-modal" class="hidden fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
     <div class="bg-white rounded-lg p-4">
@@ -151,7 +175,6 @@
         </button>
     </div>
 </div>
-    </div>
 </div>
 <script>
     let agentsData = [];
