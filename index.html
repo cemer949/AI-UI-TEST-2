@@ -21,7 +21,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
         }
 
         /* Style the form to match the design */
@@ -32,10 +32,10 @@
             padding: 2rem;
             width: 100%;
             max-width: 800px; /* Set a max-width to match the design */
-            margin: 0 1rem; /* Ensure some space at the sides */
+            margin: auto; /* Center the form */
         }
 
-        /* Style input and textarea elements */
+        /* Style input, select, and textarea elements */
         input[type="text"],
         select,
         textarea {
@@ -45,6 +45,8 @@
             border-radius: 0.375rem;
             margin-top: 0.5rem;
             margin-bottom: 1rem;
+            font-size: 0.875rem; /* Match font size to design */
+            font-family: 'Inter', sans-serif;
         }
 
         /* Style buttons */
@@ -57,6 +59,8 @@
             cursor: pointer;
             margin-top: 0.5rem;
             margin-bottom: 1rem; /* Add space below buttons */
+            font-size: 0.875rem; /* Match font size to design */
+            font-family: 'Inter', sans-serif;
         }
 
         button:hover {
@@ -133,7 +137,76 @@
             </button>
         </div>
 
-        <!-- The rest of your form elements as they were originally provided -->
+        <!-- Project Dropdown -->
+        <div class="mb-4">
+            <label for="project-dropdown" class="block text-gray-700 text-sm font-bold mb-2">Project:</label>
+            <select id="project-dropdown" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                <option value="">Select a project</option>
+                <!-- Dynamically populated project options will go here -->
+            </select>
+        </div>
+
+        <!-- Agent Dropdown -->
+        <div class="mb-4">
+            <label for="agent-dropdown" class="block text-gray-700 text-sm font-bold mb-2">Agent:</label>
+            <select id="agent-dropdown" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                <option value="">Select an agent</option>
+                <!-- Dynamically populated agent options will go here -->
+            </select>
+        </div>
+
+        <!-- Organization Name Input -->
+        <div class="mb-4">
+            <label for="organization-name" class="block text-gray-700 text-sm font-bold mb-2">Organization Name:</label>
+            <input type="text" id="organization-name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Organization Name">
+        </div>
+
+        <!-- Company Details Textarea -->
+        <div class="mb-4">
+            <label for="company-details" class="block text-gray-700 text-sm font-bold mb-2">Company Details:</label>
+            <textarea id="company-details" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="4"
+  placeholder="Details about the company"></textarea>
+        </div>
+
+        <!-- Example Responses Section -->
+        <div id="example-responses" class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Example Responses:</label>
+            <!-- Placeholder for dynamic example responses -->
+        </div>
+        <button type="button" class="add-example-response icon-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
+            Add Example Response <i class="fas fa-plus"></i>
+        </button>
+
+        <!-- Qualifying Questions Section -->
+        <div id="qualifying-questions" class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Qualifying Questions:</label>
+            <!-- Placeholder for dynamic qualifying questions -->
+        </div>
+        <button type="button" class="add-qualifying-question icon-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
+            Add Qualifying Question <i class="fas fa-plus"></i>
+        </button>
+
+        <!-- Personality Input -->
+        <div class="mb-4">
+            <label for="personality" class="block text-gray-700 text-sm font-bold mb-2">Personality:</label>
+            <input type="text" id="personality" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Personality traits">
+        </div>
+
+        <!-- Call Purpose Dropdown -->
+        <div class="mb-4">
+            <label for="call-purpose" class="block text-gray-700 text-sm font-bold mb-2">Call Purpose:</label>
+            <select id="call-purpose" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <option value="">Select Call Purpose</option>
+                <!-- Options like Pre-qualification, Appointment Setting etc. -->
+            </select>
+        </div>
+
+        <!-- Output Rules Textarea -->
+        <div class="mb-4" id="output-rules-section">
+            <label for="output-rules" class="block text-gray-700 text-sm font-bold mb-2">Output Rules:</label>
+            <textarea id="output-rules" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Define output rules"></textarea>
+            <button type="button" id="default-rules-btn" class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Default Rules</button>
+        </div>
 
         <!-- Action Selection Radio Group -->
         <div class="radio-group">
