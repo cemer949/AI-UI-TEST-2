@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Creation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .hidden { display: none; }
+        .flex-container { display: flex; align-items: flex-start; margin-bottom: 10px; }
+        .flex-container > textarea { flex-grow: 1; margin-right: 10px; }
+        .icon-button { cursor: pointer; }
+        .icon-button i { pointer-events: none; }
+    </style>
+</head>
+<body class="bg-gray-200">
+<div class="container mx-auto p-8">
+    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+<!-- API Key Input -->
+<div class="mb-4">
+    <label for="api-key-input" class="block text-gray-700 text-sm font-bold mb-2">API Key:</label>
+    <input type="text" id="api-key-input" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter your API key here">
+</div>
+
+<!-- Fetch Projects Button -->
+<div class="mb-4">
+    <button id="fetch-projects" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        Fetch Projects
+    </button>
+</div>
+
+<!-- Project Dropdown -->
+<div class="mb-4">
+    <label for="project-dropdown" class="block text-gray-700 text-sm font-bold mb-2">Project:</label>
+    <select id="project-dropdown" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+        <option value="">Select a project</option>
+    </select>
+</div>
+
+<!-- Agent Dropdown -->
+<div class="mb-4">
+    <label for="agent-dropdown" class="block text-gray-700 text-sm font-bold mb-2">Agent:</label>
+    <select id="agent-dropdown" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+        <option value="">Select an agent</option>
+    </select>
+</div>
+        <!-- Organization Name -->
+        <div class="mb-4">
+            <label for="organization-name" class="block text-gray-700 text-sm font-bold mb-2">Organization Name</label>
+            <input type="text" id="organization-name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Organization Name">
+        </div>
+        <!-- Company Details -->
+        <div class="mb-4">
+            <label for="company-details" class="block text-gray-700 text-sm font-bold mb-2">Company Details</label>
+            <textarea id="company-details" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Company Details"></textarea>
+        </div>
+        <!-- Example Responses -->
+        <div id="example-responses" class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Example Responses</label>
+            <!-- Placeholder for dynamic example responses -->
+        </div>
+        <button type="button" class="add-example-response icon-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
+            Add Example Response <i class="fas fa-plus"></i>
+        </button>
+        <!-- Qualifying Questions -->
+        <div id="qualifying-questions" class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Qualifying Questions</label>
+            <!-- Placeholder for dynamic qualifying questions -->
+        </div>
+        <button type="button" class="add-qualifying-question icon-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
+            Add Qualifying Question <i class="fas fa-plus"></i>
+        </button>
+        <!-- Personality -->
+        <div class="mb-4">
+            <label for="personality" class="block text-gray-700 text-sm font-bold mb-2">Personality</label>
+            <input type="text" id="personality" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Personality">
+        </div>
+        <!-- Call Purpose -->
+        <div class="mb-4">
+            <label for="call-purpose" class="block text-gray-700 text-sm font-bold mb-2">Call Purpose</label>
+            <select id="call-purpose" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <option value="">Select Call Purpose</option>
+                <option value="pre-qualification">Pre-qualification</option>
+                <option value="appointment setting">Appointment Setting</option>
+                <option value="appointment confirmation">Appointment Confirmation</option>
+                <option value="abandoned checkout">Abandoned Checkout</option>
+            </select>
+        </div>
+<!-- Output Rules with Default Rules Button -->
+<div class="mb-4" id="output-rules-section">
+    <label for="output-rules" class="block text-gray-700 text-sm font-bold mb-2">Output Rules</label>
+    <textarea id="output-rules" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Define output rules"></textarea>
+    <button type="button" id="default-rules-btn" class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Default Rules</button>
+</div>
+
+<!-- Action Selection -->
+<div class="mb-4">
+    <label for="action-select" class="block text-gray-700 text-sm font-bold mb-2">Action</label>
+    <select id="action-select" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        <option value="">Select an action...</option>
+        <option value="Live Transfer">Live Transfer</option>
+        <option value="Book Appointment">Book Appointment</option>
+        <option value="End Call">End Call</option>
+    </select>
+</div>
+        
+<!-- Disconnect Message Input -->
+<div class="mb-4">
+    <label for="disconnect-message" class="block text-gray-700 text-sm font-bold mb-2">Disconnect Message</label>
+    <input type="text" id="disconnect-message" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Disconnect Message. This will be used to end the conversation.">
+</div>
+        
+<!-- Save Changes Button -->
+<button id="save-changes" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    Save Changes
+</button>
+
+<!-- Success Modal -->
+<div id="success-modal" class="hidden fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
+    <div class="bg-white rounded-lg p-4">
+        <h2 class="text-lg font-semibold mb-2">Success!</h2>
+        <p>Your changes have been saved successfully.</p>
+        <button id="close-success-modal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Close
+        </button>
+    </div>
+</div>
+
+<!-- Live Transfer Modal -->
+<div id="live-transfer-modal" class="hidden fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
+    <div class="bg-white rounded-lg p-4">
+        <h2 class="text-lg font-semibold mb-2">Live Transfer Settings</h2>
+        <input type="text" id="transfer-number" placeholder="Transfer Number" class="border p-2 w-full mb-2">
+        <input type="text" id="transfer-webhook-url" placeholder="Transfer Webhook URL" class="border p-2 w-full mb-2">
+        <button id="save-live-transfer" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Save and Close
+        </button>
+    </div>
+</div>
+    </div>
+</div>
+<script>
+    let agentsData = [];
+    let projectsData = []; // This will store the projects fetched from the API
+    function constructPrompt(data) {
+    // Ensure the data has the expected structure, especially for qualifyingQuestions
+    if (!data || !data.qualifyingQuestions) {
+        console.error('Invalid data provided to constructPrompt');
+        return ''; // Return an empty string or a default prompt as a fallback
+    }
+    // Constructing the prompt with formatted qualification questions
+    const formattedQualifyingQuestions = data.qualifyingQuestions
+        .map((q, index) => `${index + 1}. ${q}`)
+        .join("\n");
+
+    // Construct the complete prompt
+    const prompt = `You are ${data.agentName} that works at ${data.organizationName}. Your role involves making outbound calls to potential leads or customers. Behave as convincingly as possible. Never be rude to customers. Do not use long pauses. Speak in a natural human-like manner. Do not be too formal, be somewhat casual but never unprofessional. Your personality: ${data.personality}. Company's details should be provided at the beginning of the call.
+The purpose of your call is for ${data.callPurpose} (The customer hasn't called you, you have called the customer).
+Some general information about the company and the call:
+${data.companyDetails}
+Qualifying questions to be asked before finishing the call. Always acknowledge the previous question's answer and ask the next question. Don't ask the questions which are answered once. But ask all the questions (ask these questions one by one only):
+${formattedQualifyingQuestions}
+After finishing the qualifying questions reply with:
+${data.disconnectMessage} (disconnect).`;
+
+    return prompt;
+}
+    function populateFormFields(agentData) {
+        console.log(agentData)
+    // Assuming you have input fields with IDs corresponding to these data properties
+    // document.getElementById('agent-name').value = agentData.agentName;
+    document.getElementById('organization-name').value = agentData.organisationName;
+   // document.getElementById('greeting-message').value = agentData.greetingMessage;
+    // For the context, use the constructPrompt function to format the data
+    const prompt = constructPrompt(agentData);
+    document.getElementById('context').value = prompt; // Assuming you have a 'context' field
+
+    // If you have other fields that directly map to agentData properties, fill them in similarly
+}
+    document.getElementById('agent-dropdown').addEventListener('change', function() {
+    const selectedAgentId = this.value;
+    // Assuming `agentsData` is globally accessible after being fetched; otherwise, you may need to adjust how you access this data
+    const selectedAgentData = agentsData.find(agent => agent._id === selectedAgentId);
+    if (selectedAgentData) {
+        populateFormFields(selectedAgentData);
+    }
+});
+    function populateAgentDropdown(agentsData) {
+    const dropdown = document.getElementById('agent-dropdown');
+    dropdown.innerHTML = '<option value="">Select an agent</option>'; // Clear current options
+
+    agentsData.forEach(agent => {
+        const option = document.createElement('option');
+        option.value = agent._id; // Assuming you might need the agent ID for something
+        option.textContent = agent.agentName; // Add the agent name to the dropdown
+        dropdown.appendChild(option);
+    });
+}
+
+    function fetchAgentSettings(projectId, apiKey) {
+    const apiUrl = `https://prod.api.vodex.ai/api/v1/agent-setting/${projectId}`;
+
+    fetch(apiUrl, {
+        method: 'GET', // Assuming the API uses GET, adjust if necessary
+        headers: {
+            'Authorization': apiKey, dbUrl: ""
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        agentsData=data.data
+        populateAgentDropdown(data.data);
+    })
+    .catch(error => {
+        console.error('There was a problem with your fetch operation:', error);
+    });
+}
+
+    document.getElementById('project-dropdown').addEventListener('change', function() {
+    const projectId = this.value;
+    const apiKey = document.getElementById('api-key-input').value;
+    if (projectId && apiKey) {
+        fetchAgentSettings(projectId, apiKey);
+    } else {
+        alert('Please enter an API key and select a project.');
+    }
+});
+    document.getElementById('fetch-projects').addEventListener('click', function() {
+    const apiKey = document.getElementById('api-key-input').value;
+    if (apiKey) {
+        fetchProjects(apiKey);
+    } else {
+        alert('Please enter an API key.');
+    }
+});
+
+function fetchProjects(apiKey) {
+    const apiUrl = 'https://prod.api.vodex.ai/api/v1/project';
+
+    fetch(apiUrl, {
+        method: 'GET', // Assuming the API uses GET, adjust if necessary
+        headers: {
+            'Authorization': apiKey, dbUrl: ""
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        populateProjectDropdown(data.data);
+    })
+    .catch(error => {
+        console.error('There was a problem with your fetch operation:', error);
+    });
+}
+
+function populateProjectDropdown(projects) {
+    const dropdown = document.getElementById('project-dropdown');
+    // Clear existing options first
+    dropdown.innerHTML = '<option value="">Select a project</option>';
+    projects.forEach(project => {
+        const option = document.createElement('option');
+        option.value = project._id; // Assuming you want to use the project ID as the value
+        option.textContent = project.projectName; // The text content is the project name
+        dropdown.appendChild(option);
+    });
+}
+
+// Function to dynamically add "Example Response" field
+function addExampleResponseField(content = '') {
+    const container = document.getElementById('example-responses');
+    const fieldHTML = `
+        <div class="flex-container">
+            <textarea class="example-response shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="2" placeholder="Example Response">${content}</textarea>
+            <button class="remove-field icon-button bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>`;
+    container.insertAdjacentHTML('beforeend', fieldHTML);
+}
+
+// Function to dynamically add "Qualifying Question" field
+function addQualifyingQuestionField(content = '') {
+    const container = document.getElementById('qualifying-questions');
+    const fieldHTML = `
+        <div class="flex-container">
+            <textarea class="qualifying-question shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="2" placeholder="Qualifying Question">${content}</textarea>
+            <button class="remove-field icon-button bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>`;
+    container.insertAdjacentHTML('beforeend', fieldHTML);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Set up initial fields for dynamic addition
+    addExampleResponseField();
+    addQualifyingQuestionField();
+
+    // Event listeners for adding and removing fields
+    document.querySelector('.add-example-response').addEventListener('click', () => addExampleResponseField());
+    document.querySelector('.add-qualifying-question').addEventListener('click', () => addQualifyingQuestionField());
+    document.getElementById('example-responses').addEventListener('click', function(e) {
+        if (e.target.classList.contains('remove-field')) {
+            e.target.parentElement.remove();
+        }
+    });
+    document.getElementById('qualifying-questions').addEventListener('click', function(e) {
+        if (e.target.classList.contains('remove-field')) {
+            e.target.parentElement.remove();
+        }
+    });
+
+    // Handling "Default Rules" button click
+    document.getElementById('default-rules-btn').addEventListener('click', () => {
+        document.getElementById('output-rules').value = "The number one rule is to always drive the conversation towards the qualifying questions. If you need to repeat something, always say it differently, for example the first time you say 'Can I ask you a few questions?' if they ask you to repeat it then say it a new way like 'I have a few questions for you. Is that ok?' Always acknowledge the customer's response with words like 'perfect', 'awesome', 'sounds good', 'interesting', 'noted', 'great', 'got it', 'roger that', 'makes sense', 'right on', 'yeah I totally hear you on that'. Always wait for the user to finish talking before responding. YOU CAN NOT END THE CALL UNTIL YOU READ EVERY LINE OF THE QUALIFYING QUESTIONS. DO NOT MISS A SINGLE LINE."; // Replace PLACEHOLDER with actual default rules
+    });
+
+    // Handling action selection and displaying the "Live Transfer" modal
+    document.getElementById('action-select').addEventListener('change', (e) => {
+        if (e.target.value === "Live Transfer") {
+            document.getElementById('live-transfer-modal').classList.remove('hidden');
+        } else {
+            document.getElementById('live-transfer-modal').classList.add('hidden');
+        }
+    });
+
+    // Handling saving live transfer settings and closing the modal
+    document.getElementById('save-live-transfer').addEventListener('click', () => {
+        document.getElementById('live-transfer-modal').classList.add('hidden');
+    });
+
+    // Save Changes button functionality and displaying success modal
+    document.getElementById('save-changes').addEventListener('click', () => {
+        // Perform saving logic here, such as sending data to a server
+
+        // Display success modal after save
+        document.getElementById('success-modal').classList.remove('hidden');
+    });
+
+    // Closing the success modal
+    document.getElementById('close-success-modal').addEventListener('click', () => {
+        document.getElementById('success-modal').classList.add('hidden');
+    });
+});
+// This function handles the form submission
+async function handleSubmit(event) {
+  event.preventDefault(); // Prevent the default form submission behavior
+
+  // Collect all form data into an object
+  const formData = {
+    apiKey: document.getElementById('api-key-input').value,
+ // agentName: document.getElementById('agent-name').value,
+    organizationName: document.getElementById('organization-name').value,
+    companyDetails: document.getElementById('company-details').value,
+    personality: document.getElementById('personality').value,
+    callPurpose: document.getElementById('call-purpose').value,
+    // Assuming you collect example responses and qualifying questions similarly
+    exampleResponses: collectValues('example-response'),
+    qualifyingQuestions: collectValues('qualifying-question'),
+    outputRules: document.getElementById('output-rules').value, // Ensure you have an element with this ID,
+    // greetingMessage: document.getElementById('greeting-message').value,
+    disconnectMessage: document.getElementById('disconnect-message').value
+    // Include any additional form data here
+  };
+
+  // Convert the formData object to a JSON string
+  const jsonData = JSON.stringify(formData);
+
+  try {
+    // Fetch request to the Cloudflare Worker endpoint
+    const response = await fetch('https://ai-voice-ui.acquisitionai.workers.dev', {
+      method: 'POST',
+      mode: 'cors', // Ensure CORS requests are allowed
+      headers: { 'Content-Type': 'application/json' },
+      body: jsonData
+    });
+
+    // Check if the response is OK (status code 200-299)
+    if (response.ok) {
+      // If the response is successful, handle it here
+      const data = await response.json();
+      console.log('Form submitted successfully:', data);
+      // You can now handle the successful submission (e.g., display a success message)
+    } else {
+      // If the response was not OK, throw an error
+      throw new Error('Network response was not OK');
+    }
+  } catch (error) {
+    // Catch and log any errors in the submission process
+    console.error('Error submitting form:', error);
+    // You can handle the error here (e.g., display an error message)
+  }
+}
+
+// Function to collect values from all elements with a given class name
+function collectValues(className) {
+  return Array.from(document.getElementsByClassName(className))
+              .map(element => element.value.trim())
+              .filter(value => value !== '');
+}
+
+// Attach the handleSubmit function to the "Save Changes" button's click event
+document.getElementById('save-changes').addEventListener('click', handleSubmit);
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
