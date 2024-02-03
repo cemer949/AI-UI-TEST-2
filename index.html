@@ -7,35 +7,35 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
-        /* Full-screen layout adjustments */
+        /* Ensure full height of the page and reset default margins */
         html, body {
-            height: 100%;
             margin: 0;
             padding: 0;
-            background-color: #f7f8fc; /* Adjusted to match screenshot background */
-            font-family: 'Inter', sans-serif; /* Preferred font */
+            height: 100%;
+            background-color: #f7f8fc;
+            font-family: 'Inter', sans-serif;
         }
 
-        /* Container for centering the form on the page */
+        /* Center the form in the middle of the page */
         .container {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            padding: 50px; /* Padding to prevent content from touching the edges */
+            padding: 1rem; /* Add a little padding to avoid touching the window edges */
         }
 
-        /* Form styling */
+        /* Style the form to match the design */
         .bg-white {
             background-color: #fff;
             border-radius: 0.5rem;
             box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
             padding: 2rem;
             width: 100%;
-            max-width: 800px; /* Increased max-width to prevent too skinny form */
+            max-width: 800px; /* Set a max-width to avoid very wide form */
         }
 
-        /* Form element styling */
+        /* Style input and textarea elements */
         input[type="text"],
         input[type="email"],
         select,
@@ -48,7 +48,7 @@
             margin-bottom: 1rem;
         }
 
-        /* Button styling */
+        /* Style buttons */
         button {
             background-color: #4f46e5;
             color: white;
@@ -56,96 +56,72 @@
             border: none;
             border-radius: 0.375rem;
             cursor: pointer;
-            width: 100%; /* Full-width buttons */
+            width: auto; /* Make buttons auto width */
+            display: inline-block; /* Align buttons next to each other */
+            margin-right: 0.5rem; /* Add space between buttons */
         }
 
         button:hover {
             background-color: #4338ca;
         }
 
-        /* Radio button customization */
+        /* Style the radio buttons */
         .radio-group {
             display: flex;
-            justify-content: space-between; /* Distribute space evenly */
-            align-items: center; /* Align items vertically */
-            margin: 1rem 0;
+            justify-content: flex-start; /* Align radio buttons to the start */
+            gap: 1rem; /* Add gap between radio button labels */
         }
 
-        /* Custom radio button design */
-        .radio-group input[type="radio"] {
-            -webkit-appearance: none; /* Hide the default radio button */
-            appearance: none;
-            background-color: #f0f3f5;
-            padding: 10px;
-            border-radius: 50%;
-            display: inline-block;
-            position: relative;
-            margin-right: 10px;
-            cursor: pointer;
-        }
-
-        /* Checkmark styles */
-        .radio-group input[type="radio"]:checked::after {
-            content: '';
-            display: block;
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: #4f46e5;
-        }
-
-        /* Adjustments for font-awesome icons */
-        .radio-group .fas {
-            margin-left: 5px;
-            color: #4f46e5;
-        }
-
-        /* Label styling for radio buttons */
         .radio-group label {
             cursor: pointer;
             display: flex;
             align-items: center;
+            gap: 0.5rem; /* Add gap between radio icon and text */
+        }
+
+        .radio-group input[type="radio"] {
+            -webkit-appearance: none; /* Remove default radio button style */
+            appearance: none;
+            background-color: #f0f3f5; /* Light grey background */
+            padding: 0.5rem; /* Padding around the radio button */
+            border-radius: 50%; /* Make it circular */
+            display: inline-block;
+            position: relative;
+            margin-right: 10px;
+            cursor: pointer;
+            border: 2px solid transparent; /* Add border to maintain dimensions */
+        }
+
+        /* Add blue background on checked state */
+        .radio-group input[type="radio"]:checked {
+            background-color: #4f46e5;
+            border-color: #4f46e5;
+        }
+
+        /* Style icons within radio labels */
+        .radio-group .fas {
+            color: #4f46e5;
         }
 
         /* Responsive adjustments */
-        @media (max-width: 768px) {
+        @media (max-width: 640px) {
             .container {
                 padding: 20px;
+            }
+            .radio-group {
+                flex-direction: column;
+                align-items: flex-start; /* Align items to the start on small screens */
+            }
+            .radio-group label {
+                margin-bottom: 0.5rem; /* Add space between stacked labels */
             }
         }
     </style>
 </head>
 <body>
-
-<!-- Main container to hold the form -->
 <div class="container">
-    <!-- White background form container -->
     <div class="bg-white">
-          <!-- API Key Input -->
-        <div class="mb-4">
-            <label for="api-key-input" class="block text-gray-700 text-sm font-bold mb-2">API Key:</label>
-            <input type="text" id="api-key-input" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter your API key here">
-        </div>
-        
-        <!-- Fetch Projects Button -->
-        <div class="mb-4">
-            <button id="fetch-projects" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                Fetch Projects
-            </button>
-        </div>
-        
-<!-- Project Dropdown -->
-<div class="mb-4">
-    <label for="project-dropdown" class="block text-gray-700 text-sm font-bold mb-2">Project:</label>
-    <select id="project-dropdown" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
-        <option value="">Select a project</option>
-    </select>
-</div>
-
-<!-- Agent Dropdown -->
+       <!-- Agent Dropdown -->
 <div class="mb-4">
     <label for="agent-dropdown" class="block text-gray-700 text-sm font-bold mb-2">Agent:</label>
     <select id="agent-dropdown" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
@@ -200,32 +176,31 @@
     <textarea id="output-rules" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Define output rules"></textarea>
     <button type="button" id="default-rules-btn" class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Default Rules</button>
 </div>
-        
         <!-- Action Selection Radio Group -->
         <div class="radio-group">
             <!-- Live Transfer Option -->
             <label>
                 <input type="radio" name="action" value="Live Transfer" checked>
-                <span>Live Transfer</span>
                 <i class="fas fa-phone-volume"></i>
+                <span>Live Transfer</span>
             </label>
 
             <!-- Book Appointment Option -->
             <label>
                 <input type="radio" name="action" value="Book Appointment">
-                <span>Book Appointment</span>
                 <i class="fas fa-calendar-alt"></i>
+                <span>Book Appointment</span>
             </label>
 
             <!-- End Call Option -->
             <label>
                 <input type="radio" name="action" value="End Call">
-                <span>End Call</span>
                 <i class="fas fa-phone-slash"></i>
+                <span>End Call</span>
             </label>
         </div>
 
-       <!-- Disconnect Message Input -->
+         <!-- Disconnect Message Input -->
         <div class="mb-4">
             <label for="disconnect-message" class="block text-gray-700 text-sm font-bold mb-2">Disconnect Message:</label>
             <input type="text" id="disconnect-message" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Disconnect Message. This will be used to end the conversation.">
