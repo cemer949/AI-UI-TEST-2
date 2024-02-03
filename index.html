@@ -6,13 +6,69 @@
     <title>Agent Creation</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <style>
-        .hidden { display: none; }
-        .flex-container { display: flex; align-items: flex-start; margin-bottom: 10px; }
-        .flex-container > textarea { flex-grow: 1; margin-right: 10px; }
-        .icon-button { cursor: pointer; }
-        .icon-button i { pointer-events: none; }
-    </style>
+   <style>
+/* Full-screen layout */
+html, body {
+    height: 100%;
+    margin: 0;
+    background-color: #edf2f7; /* This color is a close match to the screenshot's background */
+    font-family: 'Inter', sans-serif; /* Assuming Inter is the desired font */
+}
+
+/* Container styling for full-screen with some padding */
+.container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+/* Form styling to match the screenshot - slightly lighter than the background and with shadow */
+.bg-white {
+    background-color: #ffffff; /* A bit lighter than the screenshot's form background */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Tailwind CSS shadow-md */
+    border-radius: 0.5rem; /* Tailwind CSS rounded-md */
+    border: none; /* Remove border */
+    overflow: hidden; /* Ensures no overflow */
+    width: 100%; /* Full width */
+    max-width: 640px; /* Max width for larger screens */
+}
+
+/* Adjust label and input text color to match the screenshot */
+.label, .input {
+    color: #2a2e37; /* Darker text to match the screenshot */
+}
+
+/* Radio button group styling */
+.flex.justify-around.py-4 {
+    background-color: #f7f8fa; /* Slightly different background for the radio button group to stand out */
+    border-radius: 0.5rem; /* Tailwind CSS rounded-md */
+    margin: 0.5rem 0; /* Some margin around the radio group */
+    padding: 1rem; /* Padding inside the radio group */
+}
+
+/* General input styling */
+.input {
+    border: 1px solid #cbd5e0; /* Lighter border color for inputs */
+    border-radius: 0.375rem; /* Tailwind CSS rounded-lg */
+    padding: 0.5rem 0.75rem; /* Tailwind CSS p-2 */
+}
+
+/* Button styling */
+.button {
+    background-color: #4f46e5; /* Tailwind CSS blue-700 */
+    color: white; /* White text on buttons */
+    padding: 0.5rem 1rem; /* Tailwind CSS p-2 and p-4 */
+    border-radius: 0.375rem; /* Tailwind CSS rounded-lg */
+    border: none; /* No border */
+}
+
+/* Button hover effect */
+.button:hover {
+    background-color: #4338ca; /* Tailwind CSS blue-800 for hover effect */
+}
+</style>
 </head>
 <body class="bg-gray-200">
 <div class="container mx-auto p-8">
