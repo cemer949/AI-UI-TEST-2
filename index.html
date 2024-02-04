@@ -183,25 +183,6 @@
     </div>
 </div>
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-    // Add event listener for the radio inputs
-    document.querySelectorAll('input[name="action"]').forEach(radio => {
-        radio.addEventListener('change', function() {
-            // Handle showing the Live Transfer Modal
-            if (this.value === 'Live Transfer') {
-                document.getElementById('live-transfer-modal').classList.remove('hidden');
-            } else {
-                document.getElementById('live-transfer-modal').classList.add('hidden');
-            }
-
-            // Update the appearance of the selected action
-            document.querySelectorAll('.radio-option label').forEach(label => {
-                label.classList.remove('selected-action');
-            });
-            this.nextElementSibling.classList.add('selected-action');
-        });
-    });
-});
     let agentsData = [];
     let projectsData = []; // This will store the projects fetched from the API
     function constructPrompt(data) {
@@ -282,6 +263,25 @@ ${data.disconnectMessage} (disconnect).`;
         console.error('There was a problem with your fetch operation:', error);
     });
 }
+    document.addEventListener('DOMContentLoaded', () => {
+    // Add event listener for the radio inputs
+    document.querySelectorAll('input[name="action"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            // Handle showing the Live Transfer Modal
+            if (this.value === 'Live Transfer') {
+                document.getElementById('live-transfer-modal').classList.remove('hidden');
+            } else {
+                document.getElementById('live-transfer-modal').classList.add('hidden');
+            }
+
+            // Update the appearance of the selected action
+            document.querySelectorAll('.radio-option label').forEach(label => {
+                label.classList.remove('selected-action');
+            });
+            this.nextElementSibling.classList.add('selected-action');
+        });
+    });
+});
 
     document.getElementById('project-dropdown').addEventListener('change', function() {
     const projectId = this.value;
