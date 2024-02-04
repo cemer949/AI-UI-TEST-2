@@ -36,20 +36,17 @@
         <div class="flex items-center mb-8">
             <h1 class="text-2xl font-semibold text-gray-700">AI Voice Agents</h1>
         </div>
-
         <!-- API Key Input -->
 <div class="mb-4">
     <label for="api-key-input" class="block text-gray-700 text-sm font-bold mb-2">API Key:</label>
     <input type="text" id="api-key-input" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter your API key here">
 </div>
-
 <!-- Fetch Projects Button -->
 <div class="mb-4">
     <button id="fetch-projects" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
         Fetch Projects
     </button>
 </div>
-
 <!-- Project Dropdown -->
 <div class="mb-4">
     <label for="project-dropdown" class="block text-gray-700 text-sm font-bold mb-2">Project:</label>
@@ -57,7 +54,6 @@
         <option value="">Select a project</option>
     </select>
 </div>
-
 <!-- Agent Dropdown -->
 <div class="mb-4">
     <label for="agent-dropdown" class="block text-gray-700 text-sm font-bold mb-2">Agent:</label>
@@ -147,7 +143,6 @@
                 </label>
             </div>
         </div>
-
 <!-- Disconnect Message Input -->
 <div class="mb-4">
     <label for="disconnect-message" class="block text-gray-700 text-sm font-bold mb-2">Disconnect Message</label>
@@ -157,7 +152,6 @@
         <button id="save-changes" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Save Changes
         </button>
-
        <!-- Success Modal -->
 <div id="success-modal" class="hidden fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
     <div class="bg-white rounded-lg p-4">
@@ -168,7 +162,6 @@
         </button>
     </div>
 </div>
-
 <!-- Live Transfer Modal -->
 <div id="live-transfer-modal" class="hidden fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
     <div class="bg-white rounded-lg p-4">
@@ -183,6 +176,25 @@
     </div>
 </div>
 <script>
+    document.addEventListener('DOMContentLoaded', () => {
+    // Add event listener for the radio inputs
+    document.querySelectorAll('input[name="action"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            // Handle showing the Live Transfer Modal
+            if (this.value === 'Live Transfer') {
+                document.getElementById('live-transfer-modal').classList.remove('hidden');
+            } else {
+                document.getElementById('live-transfer-modal').classList.add('hidden');
+            }
+
+            // Update the appearance of the selected action
+            document.querySelectorAll('.radio-option label').forEach(label => {
+                label.classList.remove('selected-action');
+            });
+            this.nextElementSibling.classList.add('selected-action');
+        });
+    });
+});
     let agentsData = [];
     let projectsData = []; // This will store the projects fetched from the API
     function constructPrompt(data) {
@@ -195,7 +207,6 @@
     const formattedQualifyingQuestions = data.qualifyingQuestions
         .map((q, index) => `${index + 1}. ${q}`)
         .join("\n");
-
     // Construct the complete prompt
     const prompt = `You are ${data.agentName} that works at ${data.organizationName}. Your role involves making outbound calls to potential leads or customers. Behave as convincingly as possible. Never be rude to customers. Do not use long pauses. Speak in a natural human-like manner. Do not be too formal, be somewhat casual but never unprofessional. Your personality: ${data.personality}. Company's details should be provided at the beginning of the call.
 The purpose of your call is for ${data.callPurpose} (The customer hasn't called you, you have called the customer).
@@ -205,7 +216,6 @@ Qualifying questions to be asked before finishing the call. Always acknowledge t
 ${formattedQualifyingQuestions}
 After finishing the qualifying questions reply with:
 ${data.disconnectMessage} (disconnect).`;
-
     return prompt;
 }
     function populateFormFields(agentData) {
@@ -217,7 +227,6 @@ ${data.disconnectMessage} (disconnect).`;
     // For the context, use the constructPrompt function to format the data
     const prompt = constructPrompt(agentData);
     document.getElementById('context').value = prompt; // Assuming you have a 'context' field
-
     // If you have other fields that directly map to agentData properties, fill them in similarly
 }
     document.getElementById('agent-dropdown').addEventListener('change', function() {
@@ -231,7 +240,6 @@ ${data.disconnectMessage} (disconnect).`;
     function populateAgentDropdown(agentsData) {
     const dropdown = document.getElementById('agent-dropdown');
     dropdown.innerHTML = '<option value="">Select an agent</option>'; // Clear current options
-
     agentsData.forEach(agent => {
         const option = document.createElement('option');
         option.value = agent._id; // Assuming you might need the agent ID for something
@@ -239,10 +247,8 @@ ${data.disconnectMessage} (disconnect).`;
         dropdown.appendChild(option);
     });
 }
-
     function fetchAgentSettings(projectId, apiKey) {
     const apiUrl = `https://prod.api.vodex.ai/api/v1/agent-setting/${projectId}`;
-
     fetch(apiUrl, {
         method: 'GET', // Assuming the API uses GET, adjust if necessary
         headers: {
@@ -300,10 +306,8 @@ ${data.disconnectMessage} (disconnect).`;
         alert('Please enter an API key.');
     }
 });
-
 function fetchProjects(apiKey) {
     const apiUrl = 'https://prod.api.vodex.ai/api/v1/project';
-
     fetch(apiUrl, {
         method: 'GET', // Assuming the API uses GET, adjust if necessary
         headers: {
@@ -323,7 +327,6 @@ function fetchProjects(apiKey) {
         console.error('There was a problem with your fetch operation:', error);
     });
 }
-
 function populateProjectDropdown(projects) {
     const dropdown = document.getElementById('project-dropdown');
     // Clear existing options first
@@ -335,7 +338,6 @@ function populateProjectDropdown(projects) {
         dropdown.appendChild(option);
     });
 }
-
 // Function to dynamically add "Example Response" field
 function addExampleResponseField(content = '') {
     const container = document.getElementById('example-responses');
@@ -348,7 +350,6 @@ function addExampleResponseField(content = '') {
         </div>`;
     container.insertAdjacentHTML('beforeend', fieldHTML);
 }
-
 // Function to dynamically add "Qualifying Question" field
 function addQualifyingQuestionField(content = '') {
     const container = document.getElementById('qualifying-questions');
@@ -361,12 +362,10 @@ function addQualifyingQuestionField(content = '') {
         </div>`;
     container.insertAdjacentHTML('beforeend', fieldHTML);
 }
-
 document.addEventListener('DOMContentLoaded', () => {
     // Set up initial fields for dynamic addition
     addExampleResponseField();
     addQualifyingQuestionField();
-
     // Event listeners for adding and removing fields
     document.querySelector('.add-example-response').addEventListener('click', () => addExampleResponseField());
     document.querySelector('.add-qualifying-question').addEventListener('click', () => addQualifyingQuestionField());
@@ -380,46 +379,28 @@ document.addEventListener('DOMContentLoaded', () => {
             e.target.parentElement.remove();
         }
     });
-
     // Handling "Default Rules" button click
     document.getElementById('default-rules-btn').addEventListener('click', () => {
         document.getElementById('output-rules').value = "The number one rule is to always drive the conversation towards the qualifying questions. If you need to repeat something, always say it differently, for example the first time you say 'Can I ask you a few questions?' if they ask you to repeat it then say it a new way like 'I have a few questions for you. Is that ok?' Always acknowledge the customer's response with words like 'perfect', 'awesome', 'sounds good', 'interesting', 'noted', 'great', 'got it', 'roger that', 'makes sense', 'right on', 'yeah I totally hear you on that'. Always wait for the user to finish talking before responding. YOU CAN NOT END THE CALL UNTIL YOU READ EVERY LINE OF THE QUALIFYING QUESTIONS. DO NOT MISS A SINGLE LINE."; // Replace PLACEHOLDER with actual default rules
     });
-
-    // Add event listener for the radio inputs
-    document.querySelectorAll('input[name="action"]').forEach(radio => {
-        radio.addEventListener('change', function() {
-            // Handle showing the Live Transfer Modal
-            if (this.value === 'Live Transfer') {
-                document.getElementById('live-transfer-modal').classList.remove('hidden');
-            } else {
-                document.getElementById('live-transfer-modal').classList.add('hidden');
-            }
-
-            // Update the appearance of the selected action
-            document.querySelectorAll('.radio-option label').forEach(label => {
-                label.classList.remove('selected-action');
-            });
-            this.nextElementSibling.classList.add('selected-action');
-        });
+    // Handling action selection and displaying the "Live Transfer" modal
+    document.getElementById('action-select').addEventListener('change', (e) => {
+        if (e.target.value === "Live Transfer") {
+            document.getElementById('live-transfer-modal').classList.remove('hidden');
+        } else {
+            document.getElementById('live-transfer-modal').classList.add('hidden');
+        }
     });
-
     // Handling saving live transfer settings and closing the modal
     document.getElementById('save-live-transfer').addEventListener('click', () => {
         document.getElementById('live-transfer-modal').classList.add('hidden');
     });
-
-    // Any other JavaScript logic that needs to run after the DOM is fully loaded
-});
-
     // Save Changes button functionality and displaying success modal
     document.getElementById('save-changes').addEventListener('click', () => {
         // Perform saving logic here, such as sending data to a server
-
         // Display success modal after save
         document.getElementById('success-modal').classList.remove('hidden');
     });
-
     // Closing the success modal
     document.getElementById('close-success-modal').addEventListener('click', () => {
         document.getElementById('success-modal').classList.add('hidden');
@@ -428,7 +409,6 @@ document.addEventListener('DOMContentLoaded', () => {
 // This function handles the form submission
 async function handleSubmit(event) {
   event.preventDefault(); // Prevent the default form submission behavior
-
   // Collect all form data into an object
   const formData = {
     apiKey: document.getElementById('api-key-input').value,
@@ -445,10 +425,8 @@ async function handleSubmit(event) {
     disconnectMessage: document.getElementById('disconnect-message').value
     // Include any additional form data here
   };
-
   // Convert the formData object to a JSON string
   const jsonData = JSON.stringify(formData);
-
   try {
     // Fetch request to the Cloudflare Worker endpoint
     const response = await fetch('https://ai-voice-ui.acquisitionai.workers.dev', {
@@ -457,7 +435,6 @@ async function handleSubmit(event) {
       headers: { 'Content-Type': 'application/json' },
       body: jsonData
     });
-
     // Check if the response is OK (status code 200-299)
     if (response.ok) {
       // If the response is successful, handle it here
@@ -474,14 +451,12 @@ async function handleSubmit(event) {
     // You can handle the error here (e.g., display an error message)
   }
 }
-
 // Function to collect values from all elements with a given class name
 function collectValues(className) {
   return Array.from(document.getElementsByClassName(className))
               .map(element => element.value.trim())
               .filter(value => value !== '');
 }
-
 // Attach the handleSubmit function to the "Save Changes" button's click event
 document.getElementById('save-changes').addEventListener('click', handleSubmit);
 </script>
