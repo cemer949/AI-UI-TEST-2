@@ -37,14 +37,82 @@
             <h1 class="text-2xl font-semibold text-gray-700">AI Voice Agents</h1>
         </div>
 
-        <!-- Your existing form elements remain unchanged -->
+        <!-- API Key Input -->
+<div class="mb-4">
+    <label for="api-key-input" class="block text-gray-700 text-sm font-bold mb-2">API Key:</label>
+    <input type="text" id="api-key-input" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter your API key here">
+</div>
+
+<!-- Fetch Projects Button -->
+<div class="mb-4">
+    <button id="fetch-projects" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        Fetch Projects
+    </button>
+</div>
+
+<!-- Project Dropdown -->
+<div class="mb-4">
+    <label for="project-dropdown" class="block text-gray-700 text-sm font-bold mb-2">Project:</label>
+    <select id="project-dropdown" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+        <option value="">Select a project</option>
+    </select>
+</div>
+
+<!-- Agent Dropdown -->
+<div class="mb-4">
+    <label for="agent-dropdown" class="block text-gray-700 text-sm font-bold mb-2">Agent:</label>
+    <select id="agent-dropdown" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+        <option value="">Select an agent</option>
+    </select>
+</div>
+        <!-- Organization Name -->
         <div class="mb-4">
-            <label for="api-key-input" class="block text-gray-700 text-sm font-bold mb-2">API Key:</label>
-            <input type="text" id="api-key-input" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter your API key here">
+            <label for="organization-name" class="block text-gray-700 text-sm font-bold mb-2">Organization Name</label>
+            <input type="text" id="organization-name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Organization Name">
         </div>
-
-        <!-- ... (more of your existing form elements) -->
-
+        <!-- Company Details -->
+        <div class="mb-4">
+            <label for="company-details" class="block text-gray-700 text-sm font-bold mb-2">Company Details</label>
+            <textarea id="company-details" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Company Details"></textarea>
+        </div>
+        <!-- Example Responses -->
+        <div id="example-responses" class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Example Responses</label>
+            <!-- Placeholder for dynamic example responses -->
+        </div>
+        <button type="button" class="add-example-response icon-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
+            Add Example Response <i class="fas fa-plus"></i>
+        </button>
+        <!-- Qualifying Questions -->
+        <div id="qualifying-questions" class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Qualifying Questions</label>
+            <!-- Placeholder for dynamic qualifying questions -->
+        </div>
+        <button type="button" class="add-qualifying-question icon-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
+            Add Qualifying Question <i class="fas fa-plus"></i>
+        </button>
+        <!-- Personality -->
+        <div class="mb-4">
+            <label for="personality" class="block text-gray-700 text-sm font-bold mb-2">Personality</label>
+            <input type="text" id="personality" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Personality">
+        </div>
+        <!-- Call Purpose -->
+        <div class="mb-4">
+            <label for="call-purpose" class="block text-gray-700 text-sm font-bold mb-2">Call Purpose</label>
+            <select id="call-purpose" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <option value="">Select Call Purpose</option>
+                <option value="pre-qualification">Pre-qualification</option>
+                <option value="appointment setting">Appointment Setting</option>
+                <option value="appointment confirmation">Appointment Confirmation</option>
+                <option value="abandoned checkout">Abandoned Checkout</option>
+            </select>
+        </div>
+<!-- Output Rules with Default Rules Button -->
+<div class="mb-4" id="output-rules-section">
+    <label for="output-rules" class="block text-gray-700 text-sm font-bold mb-2">Output Rules</label>
+    <textarea id="output-rules" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Define output rules"></textarea>
+    <button type="button" id="default-rules-btn" class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Default Rules</button>
+</div>
         <!-- Replaced Action Dropdown with Radio Buttons -->
         <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2">Action</label>
@@ -80,18 +148,40 @@
             </div>
         </div>
 
-        <!-- ... (rest of your existing form elements) -->
-
+<!-- Disconnect Message Input -->
+<div class="mb-4">
+    <label for="disconnect-message" class="block text-gray-700 text-sm font-bold mb-2">Disconnect Message</label>
+    <input type="text" id="disconnect-message" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Disconnect Message. This will be used to end the conversation.">
+</div>
         <!-- Save Changes Button -->
         <button id="save-changes" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Save Changes
         </button>
 
-        <!-- ... (any additional elements or modals) -->
-        
+       <!-- Success Modal -->
+<div id="success-modal" class="hidden fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
+    <div class="bg-white rounded-lg p-4">
+        <h2 class="text-lg font-semibold mb-2">Success!</h2>
+        <p>Your changes have been saved successfully.</p>
+        <button id="close-success-modal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Close
+        </button>
     </div>
 </div>
 
+<!-- Live Transfer Modal -->
+<div id="live-transfer-modal" class="hidden fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
+    <div class="bg-white rounded-lg p-4">
+        <h2 class="text-lg font-semibold mb-2">Live Transfer Settings</h2>
+        <input type="text" id="transfer-number" placeholder="Transfer Number" class="border p-2 w-full mb-2">
+        <input type="text" id="transfer-webhook-url" placeholder="Transfer Webhook URL" class="border p-2 w-full mb-2">
+        <button id="save-live-transfer" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Save and Close
+        </button>
+    </div>
+</div>
+    </div>
+</div>
 <script>
     let agentsData = [];
     let projectsData = []; // This will store the projects fetched from the API
