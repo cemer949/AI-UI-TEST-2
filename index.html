@@ -386,19 +386,31 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('output-rules').value = "The number one rule is to always drive the conversation towards the qualifying questions. If you need to repeat something, always say it differently, for example the first time you say 'Can I ask you a few questions?' if they ask you to repeat it then say it a new way like 'I have a few questions for you. Is that ok?' Always acknowledge the customer's response with words like 'perfect', 'awesome', 'sounds good', 'interesting', 'noted', 'great', 'got it', 'roger that', 'makes sense', 'right on', 'yeah I totally hear you on that'. Always wait for the user to finish talking before responding. YOU CAN NOT END THE CALL UNTIL YOU READ EVERY LINE OF THE QUALIFYING QUESTIONS. DO NOT MISS A SINGLE LINE."; // Replace PLACEHOLDER with actual default rules
     });
 
-    // Handling action selection and displaying the "Live Transfer" modal
-    document.getElementById('action-select').addEventListener('change', (e) => {
-        if (e.target.value === "Live Transfer") {
-            document.getElementById('live-transfer-modal').classList.remove('hidden');
-        } else {
-            document.getElementById('live-transfer-modal').classList.add('hidden');
-        }
+    // Add event listener for the radio inputs
+    document.querySelectorAll('input[name="action"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            // Handle showing the Live Transfer Modal
+            if (this.value === 'Live Transfer') {
+                document.getElementById('live-transfer-modal').classList.remove('hidden');
+            } else {
+                document.getElementById('live-transfer-modal').classList.add('hidden');
+            }
+
+            // Update the appearance of the selected action
+            document.querySelectorAll('.radio-option label').forEach(label => {
+                label.classList.remove('selected-action');
+            });
+            this.nextElementSibling.classList.add('selected-action');
+        });
     });
 
     // Handling saving live transfer settings and closing the modal
     document.getElementById('save-live-transfer').addEventListener('click', () => {
         document.getElementById('live-transfer-modal').classList.add('hidden');
     });
+
+    // Any other JavaScript logic that needs to run after the DOM is fully loaded
+});
 
     // Save Changes button functionality and displaying success modal
     document.getElementById('save-changes').addEventListener('click', () => {
